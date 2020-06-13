@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>对话框</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+
+    .dialog{
+      width: 250px;
+      height: 200px;
+      border: 1px solid #333;
+      text-align: center;
+      border-spacing: 0;
+      position: fixed;
+      top: -50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      transition: all .5s linear;
+    }
+    
+    .dialog>thead>tr>th{
+      border-bottom: 1px solid #333;
+      padding: 10px 0;
+    }
+
+    input{
+      height:35px;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+  <table class="dialog">
+  <thead>
+    <tr>
+      <th>对话框</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input type="text"></td>
+    </tr>
+    <tr>
+      <td><input type="text"></td>
+    </tr>
+  </tbody>
+  </table>
+  <button onclick="showDialog()">点我</button>
+</body>
+<script>
+  function showDialog(){
+    let top = document.getElementsByClassName("dialog")[0].style.top;
+    document.getElementsByClassName("dialog")[0].style.top = !top || top === '-50%' ? '50%' : "-50%";
+  }
+  
+  // 原生dom的写法
+  document.documentElement.onmousedown = (e=>{
+    // 如果会出现多个不同的dialog这里就用循环，现在先默认写死只有一个
+    let dialog = document.getElementsByClassName("dialog")[0];
+    if(dialog && !document.getElementsByClassName("dialog")[0].contains(e.target)) document.getElementsByClassName("dialog")[0].style.top = '-50%';
+  })
+
+  // jQuery的写法
+  $(document).mouseup(e=>{
+    let dialog = $('.dialog');
+    if(dialog && !dialog.is(e.target)) dialog.css("top","-50%");
+  });
+</script>
+</html>
